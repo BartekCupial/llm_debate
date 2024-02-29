@@ -10,6 +10,7 @@ import attrs
 
 from core.llm_api.anthropic_llm import ANTHROPIC_MODELS, AnthropicChatModel
 from core.llm_api.base_llm import LLMResponse, ModelAPIProtocol
+from core.llm_api.mistral_llm import MISTRAL_MODELS, MistralChatModel
 from core.llm_api.openai_llm import (
     BASE_MODELS,
     GPT_CHAT_MODELS,
@@ -35,6 +36,7 @@ class ModelAPI:
     _openai_base: OpenAIBaseModel = attrs.field(init=False)
     _openai_chat: OpenAIChatModel = attrs.field(init=False)
     _anthropic_chat: AnthropicChatModel = attrs.field(init=False)
+    _mistral_chat: MistralChatModel = attrs.field(init=False)
 
     running_cost: float = attrs.field(init=False, default=0)
     model_timings: dict[str, list[float]] = attrs.field(init=False, default={})
@@ -56,6 +58,9 @@ class ModelAPI:
         )
         self._anthropic_chat = AnthropicChatModel(
             num_threads=self.anthropic_num_threads,
+            print_prompt_and_response=self.print_prompt_and_response,
+        )
+        self._mistral_chat = MistralChatModel(
             print_prompt_and_response=self.print_prompt_and_response,
         )
         Path("./prompt_history").mkdir(exist_ok=True)
@@ -151,6 +156,8 @@ class ModelAPI:
                 return self._openai_chat
             elif model_id in ANTHROPIC_MODELS:
                 return self._anthropic_chat
+            elif model_id in MISTRAL_MODELS:
+                return self._mistral_chat
             raise ValueError(f"Invalid model id: {model_id}")
 
         model_classes = [model_id_to_class(model_id) for model_id in model_ids]
@@ -161,12 +168,15 @@ class ModelAPI:
         if isinstance(model_class, AnthropicChatModel):
             max_tokens = max_tokens if max_tokens is not None else 2000
             kwargs["max_tokens_to_sample"] = max_tokens
+        elif isinstance(model_class, MistralChatModel):
+            max_tokens = max_tokens if max_tokens is not None else 2000
+            kwargs["max_new_tokens"] = max_tokens
         else:
             if max_tokens is not None:
                 kwargs["max_tokens"] = max_tokens
 
         num_candidates = num_candidates_per_completion * n
-        if isinstance(model_class, AnthropicChatModel):
+        if isinstance(model_class, (AnthropicChatModel, MistralChatModel)):
             candidate_responses = list(
                 chain.from_iterable(
                     await asyncio.gather(
