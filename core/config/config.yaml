@@ -67,6 +67,7 @@ results_file_name: "results.csv"
 # API
 organization: DEFAULT_ORG
 anthropic_tag: ANTHROPIC_API_KEY
+replicate_tag: REPLICATE_API_TOKEN
 openai_tag: API_KEY
 anthropic_num_threads: 80
 openai_fraction_rate_limit: 0.9

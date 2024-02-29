@@ -297,6 +297,7 @@ async def debate(
     setup_environment(
         logger_level="debug",
         anthropic_tag="ANTHROPIC_API_KEY",
+        replicate_tag="REPLICATE_API_TOKEN",
     )
     api_handler = ModelAPI(
         anthropic_num_threads=threads,

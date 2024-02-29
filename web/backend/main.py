@@ -37,6 +37,7 @@ def read_root():
 setup_environment(
     logger_level="debug",
     anthropic_tag="ANTHROPIC_API_KEY",
+    replicate_tag="REPLICATE_API_TOKEN",
 )
 
 app.include_router(root, prefix="/api")

@@ -28,6 +28,7 @@ async def async_main(cfg: DictConfig):
         logger_level=cfg.logging,
         anthropic_tag=cfg.anthropic_tag,
         openai_tag=cfg.openai_tag,
+        replicate_tag=cfg.replicate_tag,
     )
     api_handler = ModelAPI(
         anthropic_num_threads=cfg.anthropic_num_threads,
