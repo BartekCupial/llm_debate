@@ -30,6 +30,7 @@ Code release for our paper [Debating with More Persuasive LLMs Leads to More Tru
     ```txt
     API_KEY=<KEY>
     ANTHROPIC_API_KEY=<KEY>
+    REPLICATE_API_TOKEN=<KEY>
     DEFAULT_ORG=
     ```
 5. If you want to use the frontend also add the following
@@ -170,7 +171,7 @@ Contributions to this repository are welcome. Please follow the standard procedu
 If you would like to cite our work or data, you may use this citation:
 ```
 @misc{khan2024debating,
-      title={Debating with More Persuasive LLMs Leads to More Truthful Answers}, 
+      title={Debating with More Persuasive LLMs Leads to More Truthful Answers},
       author={Akbir Khan and John Hughes and Dan Valentine and Laura Ruis and Kshitij Sachan and Ansh Radhakrishnan and Edward Grefenstette and Samuel R. Bowman and Tim Rocktäschel and Ethan Perez},
       year={2024},
       eprint={2402.06782},
